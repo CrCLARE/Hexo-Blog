@@ -1,45 +1,58 @@
-name: Pages
+name: Deploy Hexo Blog to GitHub Pages
 
 on:
   push:
     branches:
-      - main
+      - main  # 如果你的源码分支是 master，请改成 master
+  workflow_dispatch:
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
     steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js
+      - name: 1. 检出源码
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: 2. 设置 Node.js 环境
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
-      - name: Cache NPM dependencies
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.OS }}-npm-cache
-          restore-keys: |
-            ${{ runner.OS }}-npm-cache
-      - name: Install Dependencies
-        run: npm install
-      - name: Build
-        run: npm run build
-      - name: Upload Pages artifact
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 3. 安装依赖与主题（关键步骤）
+        run: |
+          npm install
+          # 关键：安装 Stylus 渲染器，否则 CSS 无法生成
+          npm install hexo-renderer-stylus --save
+          # 安装 Solitude 主题
+          npm install hexo-theme-solitude --save
+
+      - name: 4. 生成静态文件
+        run: npx hexo clean && npx hexo generate
+
+      - name: 5. 上传 Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
 
   deploy:
-    needs: build
+    needs: build-and-deploy
+    runs-on: ubuntu-latest
     permissions:
       pages: write
       id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
     steps:
-      - name: Deploy to GitHub Pages
+      - name: 6. 部署到 GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
