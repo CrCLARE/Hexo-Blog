@@ -20,7 +20,7 @@
 site:
   name:
     class: text # text / i_class / img
-    custom: Solitude # Solitude / fas fa-ghost / /img/pwa/favicon.ico
+    custom: CrCLARE # 【已修改】Solitude / fas fa-ghost / /img/pwa/favicon.ico
   icon: /img/pwa/favicon.png # Site icon / 网站图标
 # --------------------------- end ---------------------------
 
@@ -152,8 +152,8 @@ aside:
     # social
     # 社交信息图标
     information:
-    #  Github: https://github.com/everfu || fab fa-github # Name: link || icon
-    #  Bilibili: https://space.bilibili.com/1329819902 || fab fa-bilibili
+      Github: https://github.com/CLARE-XHL || fab fa-github # 【已修改】
+      Mail: mailto:hi@crclare.top || far fa-envelope # 【已修改】
   # --------------------------- end ---------------------------
 
   # --------------------------- start ---------------------------
@@ -524,8 +524,8 @@ footer:
   information:
     author: false # img url / false
     left:
-      # Github: https://github.com/everfu || fab fa-github # 名称: 链接 || 图标
-      # Mail: mailto:o@everfu.org || far fa-envelope
+      Github: https://github.com/CLARE-XHL || fab fa-github # 【已修改】
+      Mail: mailto:hi@crclare.top || far fa-envelope # 【已修改】
     right:
       # Bilibili: https://space.bilibili.com/1329819902 || fab fa-bilibili
       # Douyin: https://v.douyin.com/iJsLc8jt/ || fab fa-tiktok
@@ -776,7 +776,7 @@ pwa:
 comment:
   # Which commenting system to use(e.g. waline or waline,twikoo)
   # 使用哪个评论系统（例如： waline or waline,twikoo）
-  use: # waline, twikoo, valine, artalk, giscus # Up to two comment systems can be turned on at the same time
+  use: twikoo # 【已修改】 waline, twikoo, valine, artalk, giscus # Up to two comment systems can be turned on at the same time
   # Whether to display the hot comment switch.
   # 是否显示热门评论开关
   commentBarrage: false
@@ -807,7 +807,7 @@ comment:
     limit: 5 # 评论数 / Number of comments
 # Twikoo: https://solitude.js.org/configuration/comment/twikoo
 twikoo: # https://twikoo.js.org/
-  envId: # url: https://twikoo.sondy.top/
+  envId: https://comment.crclare.top # 【已修改】url: https://twikoo.sondy.top/
   region: # Environment locale, default is ap-shanghai, Tencent cloud environment fill ap-shanghai or ap-guangzhou; Vercel environment do not fill the.
   style: true # Use custom styles when turned on
   accessToken: # AccessToken
