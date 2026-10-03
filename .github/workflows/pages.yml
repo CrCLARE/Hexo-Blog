@@ -3,7 +3,7 @@ name: Deploy Hexo Blog to GitHub Pages
 on:
   push:
     branches:
-      - main  # 如果你的源码分支是 master，请改成 master
+      - main
   workflow_dispatch:
 
 jobs:
@@ -27,18 +27,22 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - name: 3. 安装依赖与主题（关键步骤）
+      - name: 3. 安装依赖与渲染器
         run: |
-          npm install
-          # 关键：安装 Stylus 渲染器，否则 CSS 无法生成
+          # 关键：必须先安装 Stylus 渲染器
           npm install hexo-renderer-stylus --save
-          # 安装 Solitude 主题
-          npm install hexo-theme-solitude --save
+          # 安装博客本体的依赖
+          npm install
 
-      - name: 4. 生成静态文件
+      - name: 4. 拉取 Solitude 主题源码
+        run: |
+          # 直接用 Git 克隆主题，保证样式源文件完整
+          git clone https://github.com/everfu/hexo-theme-solitude.git themes/solitude
+
+      - name: 5. 生成静态文件
         run: npx hexo clean && npx hexo generate
 
-      - name: 5. 上传 Pages Artifact
+      - name: 6. 上传 Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
@@ -53,6 +57,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: 6. 部署到 GitHub Pages
+      - name: 7. 部署到 GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
